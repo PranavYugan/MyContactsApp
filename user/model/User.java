@@ -5,6 +5,7 @@ public abstract class User {
 	protected String email;
 	protected String password;
 	protected String userName;
+	protected String hashedPassword;
 
 	
 	public String getEmail() {
@@ -34,6 +35,18 @@ public abstract class User {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	
+
+
+	public String getHashedPassword() {
+		return hashedPassword;
+	}
+
+
+	public void setHashedPassword(String hashedPassword) {
+		this.hashedPassword = hashedPassword;
 	}
 
 
