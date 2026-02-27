@@ -27,6 +27,20 @@ public abstract class Contacts {
     public void addEmail(String email) {
         emails.add(email);
     }
+    
+    public void displayCommon() {
+        System.out.println("Name: " + name);
+
+        System.out.println("The list of Phone Numbers:");
+        for (String p : phoneNumbers) {
+            System.out.println("- " + p);
+        }
+
+        System.out.println("The list of Emails:");
+        for (String e : emails) {
+            System.out.println("- " + e);
+        }
+    }
 	
     
 	
