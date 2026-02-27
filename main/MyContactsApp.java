@@ -1,6 +1,9 @@
 package com.seveneleven.mycontactsapp.main;
 import java.util.*;
 
+import com.seveneleven.mycontactsapp.contacts.Organization;
+import com.seveneleven.mycontactsapp.contacts.Person;
+import com.seveneleven.mycontactsapp.contacts.Contacts;
 import com.seveneleven.mycontactsapp.user.auth.BasicAuth;
 import com.seveneleven.mycontactsapp.user.auth.OAuth;
 import com.seveneleven.mycontactsapp.user.model.FetchObject;
@@ -13,7 +16,6 @@ public class MyContactsApp{
 	public static void handler() {
 		Scanner scanner = new Scanner(System.in);
 		HashMap<String, User> map = new HashMap<>();
-
 		System.out.print("Enter Email: ");
 		String email = scanner.nextLine();
 		if (! Validation.emailValidation(email)) {
@@ -75,6 +77,54 @@ public class MyContactsApp{
 					String temp=scanner.nextLine();
 					OAuth.checkAuthentication(email, temp);
 					loggedInUser = access;
+				}
+			}
+			Contacts person;
+			if(loggedInUser != null) {
+				System.out.println("Press 1 to add contacts, else press 2 :");
+				int temp=scanner.nextInt();
+				scanner.nextLine();
+				if(temp==2) {
+					return;
+				}
+				else {
+					System.out.print("Enter contact type (person/organisation): ");
+                    String ctype = scanner.nextLine();
+                    System.out.print("Enter name: ");
+                    String cname = scanner.nextLine();
+
+
+                    if (ctype.equalsIgnoreCase("person")) {
+                        System.out.print("Enter relationship type: ");
+                        String relationship = scanner.nextLine();
+                        person= new Person(cname, relationship);
+                    } else {
+                        System.out.print("Enter location: ");
+                        String location = scanner.nextLine();
+                        person= new Organization(cname, location);
+                    }
+
+                    System.out.print("How many phone numbers? ");
+                    int pCount = scanner.nextInt();
+                    scanner.nextLine();
+
+                    for (int i = 0; i < pCount; i++) {
+                        System.out.print("Enter phone: ");
+                        String phone = scanner.nextLine();
+                        person.addPhoneNumber(phone);
+                    }
+
+                    System.out.print("How many emails? ");
+                    int eCount = scanner.nextInt();
+                    scanner.nextLine();
+
+                    for (int i = 0; i < eCount; i++) {
+                        System.out.print("Enter email: ");
+                        String newEmail = scanner.nextLine();
+                        person.addEmail(newEmail);
+                    }
+                    
+                    System.out.println("Contact Added.");
 				}
 			}
 		}
