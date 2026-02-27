@@ -131,7 +131,9 @@ public class MyContactsApp {
                         System.out.println("You must login first!");
                         break;
                     }
-                    System.out.println("Press 1 to add contacts, else press 2 to display contacts :");
+                    System.out.println("Press 1 to add contacts");
+                    System.out.println("Press 2 to display contacts");
+                    System.out.println("Press 3 to modify existing contact");
                     int temp = scanner.nextInt();
                     scanner.nextLine();
 
@@ -172,13 +174,53 @@ public class MyContactsApp {
 
                         userContacts.get(loggedInUser.getEmail()).add(contact);
                         System.out.println("Contact Added.");
-                    } else {
+                    } else if (temp == 2) {
                         List<Contacts> contactsList = userContacts.get(loggedInUser.getEmail());
                         if (contactsList.isEmpty()) {
                             System.out.println("No contacts found.");
                         } else {
-                            for (Contacts c : contactsList) {
-                                c.displayCommon();
+                            for (int i = 0; i < contactsList.size(); i++) {
+                                System.out.println("[" + i + "]");
+                                contactsList.get(i).displayCommon();
+                            }
+                        }
+                    } else if (temp == 3) {
+                        List<Contacts> contactsList = userContacts.get(loggedInUser.getEmail());
+                        if (contactsList.isEmpty()) {
+                            System.out.println("No contacts to modify.");
+                        } else {
+                            for (int i = 0; i < contactsList.size(); i++) {
+                                System.out.println("[" + i + "]");
+                                contactsList.get(i).displayCommon();
+                            }
+                            System.out.print("Enter the index of contact to modify: ");
+                            int idx = scanner.nextInt();
+                            scanner.nextLine();
+                            if (idx >= 0 && idx < contactsList.size()) {
+                                Contacts contact = contactsList.get(idx);
+                                System.out.println("Press 1 to change name");
+                                System.out.println("Press 2 to add phone number");
+                                System.out.println("Press 3 to add email");
+                                int modChoice = scanner.nextInt();
+                                scanner.nextLine();
+                                if (modChoice == 1) {
+                                    System.out.print("Enter new name: ");
+                                    String newName = scanner.nextLine();
+                                    contact.setName(newName);
+                                    System.out.println("Name updated.");
+                                } else if (modChoice == 2) {
+                                    System.out.print("Enter new phone: ");
+                                    String newPhone = scanner.nextLine();
+                                    contact.addPhoneNumber(newPhone);
+                                    System.out.println("Phone added.");
+                                } else if (modChoice == 3) {
+                                    System.out.print("Enter new email: ");
+                                    String newEmail = scanner.nextLine();
+                                    contact.addEmail(newEmail);
+                                    System.out.println("Email added.");
+                                }
+                            } else {
+                                System.out.println("Invalid index.");
                             }
                         }
                     }

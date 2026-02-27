@@ -41,6 +41,10 @@ public abstract class Contacts {
             System.out.println("- " + e);
         }
     }
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
     
 	

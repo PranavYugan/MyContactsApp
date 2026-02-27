@@ -1,11 +1,16 @@
 package com.seveneleven.mycontactsapp.user.model;
 
+import java.util.List;
+
+import com.seveneleven.mycontactsapp.contacts.Contacts;
+
 public abstract class User {
 
 	protected String email;
 	protected String password;
 	protected String userName;
 	protected String hashedPassword;
+	List<Contacts> contacts;
 
 	
 	public String getEmail() {
