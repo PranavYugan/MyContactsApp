@@ -388,6 +388,8 @@ public class MyContactsApp {
                     System.out.println("Press 3 to assign a tag to a contact");
                     System.out.println("Press 4 to remove a tag from a contact");
                     System.out.println("Press 5 to delete a tag");
+                    System.out.println("Press 6 to assign multiple tags to a contact");
+                    System.out.println("Press 7 to remove multiple tags from a contact");
                     int tg = scanner.nextInt();
                     scanner.nextLine();
 
@@ -477,6 +479,64 @@ public class MyContactsApp {
                                 }
                             }
                             System.out.println("Tag deleted.");
+                        }
+                    } else if (tg == 6) {
+                        if (contactsList == null || contactsList.isEmpty()) {
+                            System.out.println("No contacts available.");
+                        } else {
+                            for (int i = 0; i < contactsList.size(); i++) {
+                                System.out.println("[" + i + "]");
+                                contactsList.get(i).displayCommon();
+                            }
+                            System.out.print("Enter contact index: ");
+                            int ci = scanner.nextInt();
+                            scanner.nextLine();
+                            if (ci >= 0 && ci < contactsList.size()) {
+                                System.out.print("Enter tags separated by commas: ");
+                                String rawMulti = scanner.nextLine();
+                                Set<String> tagNames = parseTags(rawMulti);
+                                if (tagNames.isEmpty()) {
+                                    System.out.println("No valid tags provided.");
+                                } else {
+                                    Set<Tag> tagObjs = tagService.createOrGetAll(loggedInUser.getEmail(), tagNames);
+                                    Contacts c = contactsList.get(ci);
+                                    c.addTagObjects(tagObjs);
+                                    System.out.println("Tags assigned.");
+                                }
+                            } else {
+                                System.out.println("Invalid index.");
+                            }
+                        }
+                    } else if (tg == 7) {
+                        if (contactsList == null || contactsList.isEmpty()) {
+                            System.out.println("No contacts available.");
+                        } else {
+                            for (int i = 0; i < contactsList.size(); i++) {
+                                System.out.println("[" + i + "]");
+                                contactsList.get(i).displayCommon();
+                            }
+                            System.out.print("Enter contact index: ");
+                            int ci = scanner.nextInt();
+                            scanner.nextLine();
+                            if (ci >= 0 && ci < contactsList.size()) {
+                                System.out.print("Enter tags to remove (comma-separated): ");
+                                String rawMulti = scanner.nextLine();
+                                Set<String> tagNames = parseTags(rawMulti);
+                                if (tagNames.isEmpty()) {
+                                    System.out.println("No valid tags provided.");
+                                } else {
+                                    Contacts c = contactsList.get(ci);
+                                    for (String name : tagNames) {
+                                        Tag t = tagService.createOrGet(loggedInUser.getEmail(), name);
+                                        if (t != null) {
+                                            c.removeTagObject(t);
+                                        }
+                                    }
+                                    System.out.println("Tags removed where present.");
+                                }
+                            } else {
+                                System.out.println("Invalid index.");
+                            }
                         }
                     } else {
                         System.out.println("Invalid choice.");

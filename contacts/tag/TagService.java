@@ -33,4 +33,14 @@ public class TagService {
         userTags.putIfAbsent(userEmail, new HashSet<>());
         return userTags.get(userEmail).remove(new Tag(n));
     }
+    
+    public Set<Tag> createOrGetAll(String userEmail, Collection<String> names) {
+        Set<Tag> out = new HashSet<>();
+        if (names == null) return out;
+        for (String n : names) {
+            Tag t = createOrGet(userEmail, n);
+            if (t != null) out.add(t);
+        }
+        return out;
+    }
 }
