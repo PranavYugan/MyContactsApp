@@ -69,6 +69,16 @@ public abstract class Contacts {
             }
         }
     }
+    
+    private int contactCount = 0;
+
+    public int getContactCount() {
+        return contactCount;
+    }
+
+    public void incrementContactCount() {
+        this.contactCount++;
+    }
 
     public void displayCommon() {
         System.out.println("Name: " + name);
