@@ -6,6 +6,7 @@ import com.seveneleven.mycontactsapp.contacts.Organization;
 import com.seveneleven.mycontactsapp.contacts.Person;
 import com.seveneleven.mycontactsapp.contacts.Contacts;
 import com.seveneleven.mycontactsapp.contacts.BulkOperationsService;
+import com.seveneleven.mycontactsapp.contacts.search.SearchService;
 import com.seveneleven.mycontactsapp.user.auth.BasicAuth;
 import com.seveneleven.mycontactsapp.user.auth.OAuth;
 import com.seveneleven.mycontactsapp.user.model.FetchObject;
@@ -21,6 +22,7 @@ public class MyContactsApp {
         Map<String, List<Contacts>> userContacts = new HashMap<>();
         User loggedInUser = null;
         BulkOperationsService bulkService = new BulkOperationsService();
+        SearchService searchService = new SearchService();
 
         while (true) {
             System.out.println("\n--- MyContactsApp Menu ---");
@@ -139,6 +141,7 @@ public class MyContactsApp {
                 System.out.println("Press 3 to modify existing contact");
                 System.out.println("Press 4 to delete a contact");
                 System.out.println("Press 5 to bulk operations");
+                System.out.println("Press 6 to search contacts");
                 int temp = scanner.nextInt();
                 scanner.nextLine();
 
@@ -295,6 +298,43 @@ public class MyContactsApp {
                         }
                     } else {
                         System.out.println("Invalid bulk operation.");
+                    }
+                } else if (temp == 6) {
+                    List<Contacts> contactsList = userContacts.get(loggedInUser.getEmail());
+                    if (contactsList.isEmpty()) {
+                        System.out.println("No contacts available.");
+                        break;
+                    }
+                    System.out.println("Choose search type:");
+                    System.out.println("1. By Name");
+                    System.out.println("2. By Phone");
+                    System.out.println("3. By Email");
+                    System.out.println("4. By Tag");
+                    int st = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter your search query: ");
+                    String query = scanner.nextLine();
+
+                    List<Contacts> results = new ArrayList<>();
+                    if (st == 1) {
+                        results = searchService.searchByName(contactsList, query);
+                    } else if (st == 2) {
+                        results = searchService.searchByPhone(contactsList, query);
+                    } else if (st == 3) {
+                        results = searchService.searchByEmail(contactsList, query);
+                    } else if (st == 4) {
+                        results = searchService.searchByTag(contactsList, query);
+                    } else {
+                        System.out.println("Invalid search type.");
+                        break;
+                    }
+
+                    if (results.isEmpty()) {
+                        System.out.println("No matches found.");
+                    } else {
+                        for (Contacts c : results) {
+                            c.displayCommon();
+                        }
                     }
                 }
                 break;
