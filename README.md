@@ -1,1 +1,1 @@
-
+Here the logged in user can create contacts in two ways , one is person and another is organization   and each has its own variables such as relationship and location, also both can have multiple emails and phone numbers.
