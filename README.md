@@ -1,1 +1,1 @@
-
+Creating an account with email, password, and profile information, using  User class with encapsulation , validation logic, password hashing , where 2 classes extend from user named free user and premium user.
