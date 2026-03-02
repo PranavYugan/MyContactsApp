@@ -1,1 +1,1 @@
-
+After the user registers , we give them 2 ways for authentication , basic authentication and OAuth authentication , where in basic authentication as we already convert the password created by the user into hash , we now also for authentication convert the user entered password into hash and compare both and if its correct we give authentication access , and for OAuth we create token using UUID and the user needs to copy paste the token for access.
